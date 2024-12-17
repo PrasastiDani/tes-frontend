@@ -23,3 +23,37 @@ class UserService {
     }
 }
 
+class UserListComponent {
+    constructor(userService, onUserSelect) {
+        this.userService = userService;
+        this.onUserSelect = onUserSelect;
+        this.userListElement = document.getElementById('user-list');
+        this.searchInput = document.getElementById('search-input');
+
+        this.bindEvents();
+    }
+
+    bindEvents() {
+        this.searchInput.addEventListener('input', (e) => this.renderUsers(e.target.value));
+    }
+
+    async initialize() {
+        await this.userService.fetchUsers();
+        this.renderUsers();
+    }
+
+    renderUsers(searchTerm = '') {
+        const users = this.userService.searchUsers(searchTerm);
+
+        this.userListElement.innerHTML = users.map(user => `
+                    <div class="user-card" data-user-id="${user.id}">
+                        <h3>${user.name}</h3>
+                        <p>${user.email}</p>
+                        <p>${user.address.street}, ${user.address.city}</p>
+                    </div>
+                `).join('');
+
+        
+    }
+}
+
