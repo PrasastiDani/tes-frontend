@@ -101,3 +101,14 @@ class UserDetailComponent {
         this.overlayElement.style.display = 'none';
     }
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+    const userService = new UserService();
+    const userDetailComponent = new UserDetailComponent();
+    const userListComponent = new UserListComponent(
+        userService,
+        (user) => userDetailComponent.showUserDetail(user)
+    );
+
+    userListComponent.initialize();
+});
