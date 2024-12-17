@@ -53,7 +53,13 @@ class UserListComponent {
                     </div>
                 `).join('');
 
-        
+        this.userListElement.querySelectorAll('.user-card').forEach(card => {
+            card.addEventListener('click', () => {
+                const userId = card.getAttribute('data-user-id');
+                const user = this.userService.users.find(u => u.id === parseInt(userId));
+                this.onUserSelect(user);
+            });
+        });
     }
 }
 
